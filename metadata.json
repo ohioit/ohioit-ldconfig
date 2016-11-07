@@ -1,0 +1,15 @@
+{
+  "name": "ohioit-ldconfig",
+  "version": "1.0.1",
+  "author": "ohioit",
+  "summary": "Manage files in /etc/ld.so.conf.d",
+  "license": "GPLv2.0",
+  "source": "https://github.com/ohioit/puppetlabs-ldconfig",
+  "project_page": "https://github.com/ohioit/puppetlabs-ldconfig",
+  "issues_url": "https://github.com/ohioit/puppetlabs-ldconfig/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}
+
