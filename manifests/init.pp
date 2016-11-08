@@ -30,12 +30,13 @@ class ldconfig (
 
   validate_bool($snippits_hiera_merge)
 
-  if $snippits != undef {
-    if $snippits_hiera_merge == true {
-      $snippits_real = hiera_hash('ldconfig::snippits')
-    } else {
-      $snippits_real = $snippits
-    }
+  if $snippits_hiera_merge == true {
+    $snippits_real = hiera_hash('ldconfig::snippits', {})
+  } elsif $snippits != undef  {
+    $snippits_real = $snippits
+  }
+
+  if $snippits_real != undef {
     validate_hash($snippits_real)
     create_resources('ldconfig::snippit', $snippits_real)
   }
