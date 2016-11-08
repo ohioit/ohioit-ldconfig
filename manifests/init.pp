@@ -28,21 +28,15 @@ class ldconfig (
 ) {
   $basedir = '/etc/ld.so.conf.d'
 
-  if is_string($snippits_hiera_merge) {
-    $snippits_hiera_merge_real = str2bool($snippits_hiera_merge)
-  } else {
-    $snippits_hiera_merge_real = $snippits_hiera_merge
-  }
-  validate_bool($snippits_hiera_merge_real)
+  validate_bool($snippits_hiera_merge)
 
-  if $snippits != undef {
-    if $snippits_hiera_merge_real == true {
-      $snippits_real = hiera_hash('ldconfig::snippits', {})
-    } else {
-      $snippits_real = $snippits
-    }
-    validate_hash($snippits_real)
-    create_resources('ldconfig::snippit',$snippits_real)
+  if $snippits_hiera_merge == true {
+    $snippits = hiera_hash('ldconfig::snippits', {})
+    validate_hash($snippits)
+    create_resources('ldconfig::snippit',$snippits)
+  } elsif $snippits != undef {
+    validate_hash($snippits)
+    create_resources('ldconfig::snippit',$snippits)
   }
 
   exec { 'ldconfig-rebuild':
