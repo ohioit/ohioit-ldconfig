@@ -26,9 +26,9 @@ define ldconfig::conf_snippet (
             default => $source
           } # $real_source
           file { "${ldconfig::basedir}/${real_name}.conf":
-            ensure  => present,
-            source  => $real_source,
-            notify  => Exec['ldconfig-rebuild'],
+            ensure => present,
+            source => $real_source,
+            notify => Exec['ldconfig-rebuild'],
           }
         }
 

@@ -22,28 +22,15 @@
 # garrett honeycutt <garrett@puppetlabs.com> 20110405
 # Robert Foreman <foremar1@ohio.edu> 20161107
 #
-class ldconfig (
-  $snippits = undef,
-  $snippits_hiera_merge = true,
-) {
+class ldconfig {
   $basedir = '/etc/ld.so.conf.d'
-
-  validate_bool($snippits_hiera_merge)
-
-  if $snippits_hiera_merge == true {
-    $snippits_real = hiera_hash('ldconfig::snippits', {})
-  } elsif $snippits != undef  {
-    $snippits_real = $snippits
-  }
-
-  if $snippits_real != undef {
-    validate_hash($snippits_real)
-    create_resources('ldconfig::snippit', $snippits_real)
-  }
+  $snippets = hiera_hash('ldconfig::snippets', {})
+  create_resources('ldconfig::snippet', $snippets)
 
   exec { 'ldconfig-rebuild':
     refreshonly => true,
     path        => '/sbin',
     command     => '/sbin/ldconfig',
   }
+
 }
