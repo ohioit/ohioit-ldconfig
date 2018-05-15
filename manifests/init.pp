@@ -9,7 +9,6 @@
 #   [*snippits*]             - Expects hash, defaults to undef, can be used
 #                              instead of hiera if snippits_hiera_merge is
 #                              set to false.
-#   [*snippits_hiera_merge*] - Boolean, defaults to true, enables hiera hash
 #
 # === Hiera Hashes
 #
@@ -24,7 +23,12 @@
 #
 class ldconfig {
   $basedir = '/etc/ld.so.conf.d'
-  $snippets = hiera_hash('ldconfig::snippets', {})
+
+  if versioncmp($::puppetversion, '4.0.0') < 0 {
+    $snippets = hiera_hash('ldconfig::snippets', {})
+  } else {
+    $snippets = lookup('ldconfig::snippets', Hash, 'deep', {})
+  }
   create_resources('ldconfig::snippet', $snippets)
 
   exec { 'ldconfig-rebuild':
